@@ -12,16 +12,18 @@ class My_App():
         self.BLANK_SQUARE=tk.PhotoImage(file='img/Simple_blank.png').subsample(12, 12)
         self.window.title("Wordle")
         self.window.config(bg=BG_COLOR)
-        self.window.geometry("1200x900")
-        self.head_title=tk.Label(text="Wordle", font=("Arial", 24, 'bold'), bg=BG_COLOR, pady=10)
-        self.head_title.grid(column=0,row=0)
+        self.window.geometry("1200x950")
+        self.inv_title=tk.Label(text="", font=("Coco Gothic", 50, 'bold'), bg=BG_COLOR, pady=10, fg=BG_COLOR)
+        self.inv_title.grid(column=2,row=0,columnspan=4)
+        self.head_title=tk.Label(text="Wordly", font=("Coco Gothic", 50, 'bold'), bg=BG_COLOR, fg="#f4f4f4")
+        self.head_title.place(x=482,y=7)
         
     def create_squares(self):
         self.squares=[]
         for x in range(0,6):
             line_list=[]
             for x in range(0,5):
-                block_canvas = tk.Canvas(self.window, height=50, width=50, bg=BG_COLOR)
+                block_canvas = tk.Canvas(self.window, height=75, width=75, bg=BG_COLOR)
                 #block_canvas.create_image(50,50,image=self.BLANK_SQUARE)
                 line_list.append(block_canvas)
             self.squares.append(line_list)
@@ -31,11 +33,15 @@ class My_App():
         for y in range(0,6):
             xpos=1
             for x in range(0,5):
-                self.squares[ypos-1][xpos-1].grid(row=ypos, column=xpos, padx=2, pady=2)
+                padx_value=2
+                if(xpos==1):
+                    padx_value=(390,2)
+                self.squares[ypos-1][xpos-1].grid(row=ypos, column=xpos, padx=padx_value, pady=2)
+                
                 xpos+=1
             ypos+=1
     
-    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color="lightgray", outline_color="lightgray"):
+    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color="#9f9f9f", outline_color="#9f9f9f"):
         image.create_rectangle(x + corner_radius, y,
                                     x + width - corner_radius, y + height,
                                     fill=fill_color, outline=outline_color)
@@ -68,24 +74,33 @@ class My_App():
             if y == 2:
                 h=3
             for x in range(0,10-h):
-                keys = tk.Canvas(self.window, height=50, width=40, bg=BG_COLOR, highlightthickness=0)
+                keys = tk.Canvas(self.window, height=80, width=70, bg=BG_COLOR, highlightthickness=0)
                 #keys.create_image(20, 25, image=self.BLANK_SQUARE)
                 
-                self.draw_rounded_square(keys,0,0,40,50,10)
+                self.draw_rounded_square(keys,0,0,70,80,10)
                 
-                keys.create_text(20, 25 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 20, 'bold'), fill='white')
+                keys.create_text(34, 40 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 35, 'bold'), fill='white')
                 iterator+=1
                 keys_row.append(keys)
             self.keys_column.append(keys_row)
                 
     def place_keyboard(self):
-        ypos=6
+        ypos=630
         for row in self.keys_column:
-            xpos=1
+            
+            if self.keys_column.index(row) == 1:
+                xpos =240
+            elif self.keys_column.index(row) == 2:
+                xpos=320
+            else:
+                xpos=200
+                
+                
             for key in row:
-                key.grid(column=xpos, row=ypos)
-                xpos+=1
-            ypos+=1
+                key.place(x=xpos,y=ypos)
+                #key.place(x=1,y=1)
+                xpos+=80
+            ypos+=100
                 
                 
                 
