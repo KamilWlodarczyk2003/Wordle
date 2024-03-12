@@ -23,7 +23,7 @@ class My_App():
         for x in range(0,6):
             line_list=[]
             for x in range(0,5):
-                block_canvas = tk.Canvas(self.window, height=75, width=75, bg=BG_COLOR)
+                block_canvas = tk.Canvas(self.window, height=75, width=75, bg=BG_COLOR, highlightbackground="#2b2b2b")
                 #block_canvas.create_image(50,50,image=self.BLANK_SQUARE)
                 line_list.append(block_canvas)
             self.squares.append(line_list)
@@ -41,7 +41,7 @@ class My_App():
                 xpos+=1
             ypos+=1
     
-    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color="#9f9f9f", outline_color="#9f9f9f"):
+    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color="#474747", outline_color="#474747"):
         image.create_rectangle(x + corner_radius, y,
                                     x + width - corner_radius, y + height,
                                     fill=fill_color, outline=outline_color)
@@ -79,7 +79,7 @@ class My_App():
                 
                 self.draw_rounded_square(keys,0,0,70,80,10)
                 
-                keys.create_text(34, 40 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 35, 'bold'), fill='white')
+                keys.create_text(34, 40 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 35, 'bold'), fill='#d6d6d6')
                 iterator+=1
                 keys_row.append(keys)
             self.keys_column.append(keys_row)
