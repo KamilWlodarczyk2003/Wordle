@@ -28,7 +28,7 @@ class My_App():
     
     def place_squares(self):
         ypos=1
-        for y in range(0,5):
+        for y in range(0,6):
             xpos=1
             for x in range(0,5):
                 self.squares[ypos-1][xpos-1].grid(row=ypos, column=xpos)
