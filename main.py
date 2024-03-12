@@ -4,7 +4,6 @@ import tkinter as tk
 BG_COLOR='#666666'
 #BLANK_SQUARE=tk.PhotoImage(file='img/Simple_blank.png')
 
-
     
 class My_App():
     def __init__(self):
@@ -22,7 +21,7 @@ class My_App():
             line_list=[]
             for x in range(0,5):
                 block_canvas = tk.Canvas(self.window, height=50, width=50, bg=BG_COLOR)
-                block_canvas.create_image(50,50,image=self.BLANK_SQUARE)
+                #block_canvas.create_image(50,50,image=self.BLANK_SQUARE)
                 line_list.append(block_canvas)
             self.squares.append(line_list)
     
@@ -31,9 +30,10 @@ class My_App():
         for y in range(0,6):
             xpos=1
             for x in range(0,5):
-                self.squares[ypos-1][xpos-1].grid(row=ypos, column=xpos)
+                self.squares[ypos-1][xpos-1].grid(row=ypos, column=xpos, padx=2, pady=2)
                 xpos+=1
             ypos+=1
+            
                 
         
 
