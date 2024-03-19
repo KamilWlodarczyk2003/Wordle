@@ -3,3 +3,4 @@ about
 games
 lucky
 piwko
+fleet

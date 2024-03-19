@@ -104,7 +104,9 @@ class My_App():
                 xpos+=80
             ypos+=100
             
-    def writing(self, event):
+    def writing(self, event, word):
+        print(f"word: {word}")
+        print(f"current: {self.input_word}")
         key=event.keysym.upper()
         
         if key in self.KLAWIATURA:
@@ -113,16 +115,24 @@ class My_App():
                 self.input_word +=key
                 
         elif key == "BACKSPACE" and len(self.input_word) > 0:
+            
             index = len(self.input_word) - 1
             self.input_word = self.input_word[:-1]
             self.squares[self.current_box][index].delete('text')
         
         elif key == "RETURN" and len(self.input_word) == 5:
+            
+            for x in range(0,5):
+                
+                if self.input_word[x] in word:
+                    if self.input_word[x] == word[x]:
+                        self.squares[self.current_box][x].configure(bg="green")
+                    else:
+                        self.squares[self.current_box][x].configure(bg="yellow")
+                        
             self.current_box += 1
             self.input_word=''
             
-        print(self.input_word)
-        print(key)
         self.block_writing()
         
     def block_writing(self):
