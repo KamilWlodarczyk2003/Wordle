@@ -1,17 +1,18 @@
 import tkinter as tk
-BG_COLOR='#666666'
+
 
 
 class My_App():
+    BG_COLOR='#666666'
+    current_box=[0,0]
     def __init__(self):
         self.window = tk.Tk()
-        self.BLANK_SQUARE=tk.PhotoImage(file='img/Simple_blank.png').subsample(12, 12)
         self.window.title("Wordle")
-        self.window.config(bg=BG_COLOR)
+        self.window.config(bg=self.BG_COLOR)
         self.window.geometry("1200x950")
-        self.inv_title=tk.Label(text="", font=("Coco Gothic", 50, 'bold'), bg=BG_COLOR, pady=10, fg=BG_COLOR)
+        self.inv_title=tk.Label(text="", font=("Coco Gothic", 50, 'bold'), bg=self.BG_COLOR, pady=10, fg=self.BG_COLOR)
         self.inv_title.grid(column=2,row=0,columnspan=4)
-        self.head_title=tk.Label(text="Wordly", font=("Coco Gothic", 50, 'bold'), bg=BG_COLOR, fg="#f4f4f4")
+        self.head_title=tk.Label(text="Wordly", font=("Coco Gothic", 50, 'bold'), bg=self.BG_COLOR, fg="#f4f4f4")
         self.head_title.place(x=482,y=7)
         
     def create_squares(self):
@@ -19,8 +20,7 @@ class My_App():
         for x in range(0,6):
             line_list=[]
             for x in range(0,5):
-                block_canvas = tk.Canvas(self.window, height=75, width=75, bg=BG_COLOR, highlightbackground="#2b2b2b")
-                #block_canvas.create_image(50,50,image=self.BLANK_SQUARE)
+                block_canvas = tk.Canvas(self.window, height=75, width=75, bg=self.BG_COLOR, highlightbackground="#2b2b2b")
                 line_list.append(block_canvas)
             self.squares.append(line_list)
     
@@ -70,8 +70,7 @@ class My_App():
             if y == 2:
                 h=3
             for x in range(0,10-h):
-                keys = tk.Canvas(self.window, height=80, width=70, bg=BG_COLOR, highlightthickness=0)
-                #keys.create_image(20, 25, image=self.BLANK_SQUARE)
+                keys = tk.Canvas(self.window, height=80, width=70, bg=self.BG_COLOR, highlightthickness=0)
                 
                 self.draw_rounded_square(keys,0,0,70,80,10)
                 
@@ -97,3 +96,10 @@ class My_App():
                 #key.place(x=1,y=1)
                 xpos+=80
             ypos+=100
+            
+    def writing(self, event):
+        key=event.keysym.upper()
+        if key in self.KLAWIATURA:
+            print(key)
+        else:
+            pass
