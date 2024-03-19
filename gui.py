@@ -4,7 +4,11 @@ import tkinter as tk
 
 class My_App():
     BG_COLOR='#666666'
+    KLAWIATURA="QWERTYUIOPASDFGHJKLZXCVBNM"
+    
     current_box=[0,0]
+    input_word=''
+    
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("Wordle")
@@ -58,7 +62,6 @@ class My_App():
                                 fill=fill_color, outline=outline_color)
             
     
-    KLAWIATURA="QWERTYUIOPASDFGHJKLZXCVBNM"
     def create_keyboard(self):
         self.keys_column=[]
         iterator=0
@@ -93,13 +96,14 @@ class My_App():
                 
             for key in row:
                 key.place(x=xpos,y=ypos)
-                #key.place(x=1,y=1)
                 xpos+=80
             ypos+=100
             
     def writing(self, event):
         key=event.keysym.upper()
         if key in self.KLAWIATURA:
-            print(key)
-        else:
-            pass
+            if len(self.input_word) < 5:
+                self.input_word +=key
+        elif key == "BACKSPACE" and len(self.input_word) > 0:
+            self.input_word = self.input_word[:-1]
+        print(self.input_word)
