@@ -1,10 +1,13 @@
 import tkinter as tk
+from pynput.keyboard import Key, Listener
 
 
 
 class My_App():
     BG_COLOR='#666666'
     KLAWIATURA="QWERTYUIOPASDFGHJKLZXCVBNM"
+    DARK_GREY="#474747"
+    LIGHT_GREY="#a3a3a3"
     
     current_box=0
     input_word=''
@@ -41,25 +44,25 @@ class My_App():
                 xpos+=1
             ypos+=1
     
-    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color="#474747", outline_color="#474747"):
+    def draw_rounded_square(self,image , x, y, width, height, corner_radius, fill_color, outline_color):
         image.create_rectangle(x + corner_radius, y,
                                     x + width - corner_radius, y + height,
-                                    fill=fill_color, outline=outline_color)
+                                    fill=fill_color, outline=outline_color, tags="rounded_square")
         image.create_rectangle(x, y + corner_radius,
                                     x + width, y + height - corner_radius,
-                                    fill=fill_color, outline=outline_color)
+                                    fill=fill_color, outline=outline_color, tags="rounded_square")
         image.create_oval(x, y,
                                 x + corner_radius * 2, y + corner_radius * 2,
-                                fill=fill_color, outline=outline_color)
+                                fill=fill_color, outline=outline_color, tags="rounded_square")
         image.create_oval(x + width - corner_radius * 2, y,
                                 x + width, y + corner_radius * 2,
-                                fill=fill_color, outline=outline_color)
+                                fill=fill_color, outline=outline_color, tags="rounded_square")
         image.create_oval(x, y + height - corner_radius * 2,
                                 x + corner_radius * 2, y + height,
-                                fill=fill_color, outline=outline_color)
+                                fill=fill_color, outline=outline_color, tags="rounded_square")
         image.create_oval(x + width - corner_radius * 2, y + height - corner_radius * 2,
                                 x + width, y + height,
-                                fill=fill_color, outline=outline_color)
+                                fill=fill_color, outline=outline_color, tags="rounded_square")
             
     
     def create_keyboard(self):
@@ -75,9 +78,11 @@ class My_App():
             for x in range(0,10-h):
                 keys = tk.Canvas(self.window, height=80, width=70, bg=self.BG_COLOR, highlightthickness=0)
                 
-                self.draw_rounded_square(keys,0,0,70,80,10)
+                self.draw_rounded_square(keys,0,0,70,80,10,self.DARK_GREY, self.DARK_GREY)
                 
-                keys.create_text(34, 40 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 35, 'bold'), fill='#d6d6d6')
+                keys.create_text(34, 40 , text=self.KLAWIATURA[iterator], font=("Coco Gothic", 35, 'bold'), fill='#d6d6d6', tags='text')
+                keys.bind("<Button-1>", lambda event, canvas=keys: self.key_click(event, canvas))
+                keys.bind("<ButtonRelease-1>", lambda event: self.unclick(event))
                 iterator+=1
                 keys_row.append(keys)
             self.keys_column.append(keys_row)
@@ -123,3 +128,23 @@ class My_App():
     def block_writing(self):
         for x in range(0, len(self.input_word)):
             self.squares[self.current_box][x].create_text(37,40,text=self.input_word[x],font=("Coco Gothic", 38, 'bold'), fill='#d6d6d6', tag="text")
+            
+    def key_click(self, event, canvas):
+
+        canvas = event.widget
+        text = canvas.find_withtag("text")
+        
+        canvas.itemconfig("rounded_square", fill=self.LIGHT_GREY, outline=self.LIGHT_GREY)
+        
+        if text:
+            key = canvas.itemcget(text[0], "text")
+            if len(self.input_word) < 5:
+                self.input_word += key
+                self.block_writing()
+                
+    def unclick(self,event):
+        canvas = event.widget
+        text = canvas.find_withtag("text")
+        
+        canvas.itemconfig("rounded_square", fill=self.DARK_GREY, outline=self.DARK_GREY)
+        
