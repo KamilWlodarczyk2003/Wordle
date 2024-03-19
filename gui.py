@@ -6,7 +6,7 @@ class My_App():
     BG_COLOR='#666666'
     KLAWIATURA="QWERTYUIOPASDFGHJKLZXCVBNM"
     
-    current_box=[0,0]
+    current_box=0
     input_word=''
     
     def __init__(self):
@@ -101,9 +101,25 @@ class My_App():
             
     def writing(self, event):
         key=event.keysym.upper()
+        
         if key in self.KLAWIATURA:
+            
             if len(self.input_word) < 5:
                 self.input_word +=key
+                
         elif key == "BACKSPACE" and len(self.input_word) > 0:
+            index = len(self.input_word) - 1
             self.input_word = self.input_word[:-1]
+            self.squares[self.current_box][index].delete('text')
+        
+        elif key == "RETURN" and len(self.input_word) == 5:
+            self.current_box += 1
+            self.input_word=''
+            
         print(self.input_word)
+        print(key)
+        self.block_writing()
+        
+    def block_writing(self):
+        for x in range(0, len(self.input_word)):
+            self.squares[self.current_box][x].create_text(37,40,text=self.input_word[x],font=("Coco Gothic", 38, 'bold'), fill='#d6d6d6', tag="text")
